@@ -13,7 +13,7 @@ var width = 1000;
 var height = 700;
 var MOUSEOVER = false;
 
-var svgContainer = d3.select("#barchart").append("svg")
+  svgContainer = d3.select("#barchart").append("svg")
 						.attr("height", height)
 						.attr("width", width);
 
@@ -32,10 +32,10 @@ var svgContainer = d3.select("#barchart").append("svg")
 // var ellipse = svgContainer.append("ellipse")
 // 							.attr("cx", 50)
 // 							.attr("cy", 50)
-// 							.attr("rx", 25)
-// 							.attr("ry", 10)
+ //							.attr("rx", 25)
+ //							.attr("ry", 10)
 // 							.attr("fill", "red")
-// 							.attr("id", "ellipse");
+ //							.attr("id", "ellipse");
 
 // d3.select("#ellipse").attr("fill","green");
 
@@ -44,9 +44,9 @@ var svgContainer = d3.select("#barchart").append("svg")
 //                          .attr("x1", 5)
 //                          .attr("y1", 5)
 //                          .attr("x2", 50)
-//                          .attr("y2", 50)
+//                         .attr("y2", 50)
 //                          .attr("stroke-width", 2)
-//                          .attr("stroke", "blue");
+//                         .attr("stroke", "blue");
 
 // var arc = d3.arc()
 //     .innerRadius(40)
@@ -68,48 +68,113 @@ var chart_height = 400,
 	chart_width = 700;
 
 // Code for vertical bar chart
-// var x = d3.scaleBand().rangeRound([0, chart_width]).padding(0.1),
-//     y = d3.scaleLinear().rangeRound([chart_height, 0]);
+var x = d3.scaleBand().rangeRound([0, chart_width]).padding(0.1),
+    y = d3.scaleLinear().rangeRound([chart_height, 0]);
 
-var x = d3.scaleLinear().rangeRound([0, chart_width]),
-    y = d3.scaleBand().rangeRound([chart_height, 0]).padding(0.1);
+// code for hor bar chart
+// var x = d3.scaleLinear().rangeRound([0, chart_width]),
+//     y = d3.scaleBand().rangeRound([chart_height, 0]).padding(0.1);
+
 
 var chart_group = svgContainer.append("g")
 	.attr("id", "chart_group")
     .attr("transform", "translate(" + 100 + "," + 50 + ")");
-
 // Code for vertical bar chart
-// x.domain(x_variables);
-// y.domain([0, 100]);
+x.domain(x_variables);
+y.domain([0, 100]);
 
-x.domain([0, 100]);
-y.domain(x_variables);
+// Code for hor bar chart
+// x.domain([0, 100]);
+// y.domain(x_variables);
 
 chart_group.append("g")
     .attr("transform", "translate(" + 0 + "," + chart_height + ")")
-    .call(d3.axisBottom(x));
+    .call(d3.axisBottom(x))
     // Code for vertical bar chart
-    // .selectAll("text")
-    // .attr("y", 0)
-    // .attr("x", 9)
-    // .attr("transform", "rotate(90)")
-    // .style("text-anchor", "start");
+    .selectAll("text")
+    .attr("y", 0)
+    .attr("x", 9)
+    .attr("transform", "rotate(45)")
+    .style("text-anchor", "start");
 
 chart_group.append("g")
     .call(d3.axisLeft(y));
 
 var map = d3.map(data[0]); 
 
+// chart_group.selectAll(".bar")
+//     .data(map.entries())
+//     .enter()
+//     .append("rect")
+//     .attr("class", "bar")
+//     .attr("x", 1)
+//     .attr("y", function (d) { return y(d.key) })
+//     .attr("width", function(d) { return x(d.value); })
+//     .attr("height", y.bandwidth())
+//     .on("mouseover", function(d, i) {
+//         var x_var = d.key;
+//         var value = d.value;
+//         var info = get_info_on_var(x_var);
+//         var label = info[0]
+//         var definition = info[1];
 
+//         displayTooltip("<b>Variable: </b>" + label + "<br /><b>Percentage: </b>" + 
+//             value + "%<br /><b>Explanation: </b>" + definition)
+
+//         //d3.select(this).attr("fill", "DarkOrange");
+//     })
+//     .on("mousemove", function(d, i) {
+//         var x_var = d.key;
+//         var value = d.value;
+//         var info = get_info_on_var(x_var);
+//         var label = info[0]
+//         var definition = info[1];
+
+//         displayTooltip("<b>Variable: </b>" + label + "<br /><b>Percentage: </b>" + 
+//             value + "%<br /><b>Explanation: </b>" + definition)
+
+//         d3.select(this).attr("fill", "DarkOrange");
+//     })
+//     .on("mouseout", function(d) {
+//         hideTooltip();
+//         //d3.select(this).attr("fill", "steelblue");
+//     });
+
+// text label for the x axis
+svgContainer.append("text")             
+  .attr("transform",
+        "translate(" + (width/2 - (100/2)) + " ," + 
+                       (chart_height + 150) + ")")
+  .style("text-anchor", "middle")
+  .style("font-size", "13px")
+  .text("Domain");
+
+
+chart_group.append("text")
+        .attr("class", "title")
+        .attr("id", "chart-title")
+        .attr("y", -25)
+        .attr("x", chart_width / 2)
+        .attr("x", 1)
+        .style("font-weight", "bold")               
+        .style("text-anchor", "start")
+        .text("Rental statistics of " + selected_area);
+
+
+var Color = d3.scaleOrdinal().domain(Object.keys(map.entries()))
+  .range(d3.schemeSet3);
+  
+// Code for vertical bar chart
 chart_group.selectAll(".bar")
     .data(map.entries())
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .attr("x", 1)
-    .attr("y", function (d) { return y(d.key) })
-    .attr("width", function(d) { return x(d.value); })
-    .attr("height", y.bandwidth())
+    .attr("x", function (d) { return x(d.key)})
+    .attr("y", function (d) { return y(d.value) })
+    .attr("width", x.bandwidth())
+    .attr("height", function(d) { return chart_height - y(d.value); })
+    .attr("fill", function(d) {return Color(d.key) })
     .on("mouseover", function(d, i) {
         var x_var = d.key;
         var value = d.value;
@@ -138,62 +203,5 @@ chart_group.selectAll(".bar")
         hideTooltip();
         //d3.select(this).attr("fill", "steelblue");
     });
-
-// text label for the x axis
-svgContainer.append("text")             
-  .attr("transform",
-        "translate(" + (width/2 - (100/2)) + " ," + 
-                       (chart_height + 100) + ")")
-  .style("text-anchor", "middle")
-  .style("font-size", "13px")
-  .text("Percentage");
-
-chart_group.append("text")
-        .attr("class", "title")
-        .attr("id", "chart-title")
-        .attr("y", -25)
-        .attr("x", chart_width / 2)
-        .style("font-weight", "bold")               
-        .style("text-anchor", "middle")
-        .text("Rental statistics of " + selected_area);
-
-// Code for vertical bar chart
-// chart_group.selectAll(".bar")
-//     .data(map.entries())
-//     .enter()
-//     .append("rect")
-//     .attr("class", "bar")
-//     .attr("x", function (d) { return x(d.key)})
-//     .attr("y", function (d) { return y(d.value) })
-//     .attr("width", x.bandwidth())
-//     .attr("height", function(d) { return chart_height - y(d.value); })
-//     .on("mouseover", function(d, i) {
-//         var x_var = d.key;
-//         var value = d.value;
-//         var info = get_info_on_var(x_var);
-//         var label = info[0]
-//         var definition = info[1];
-
-//         displayTooltip("<b>Variable: </b>" + label + "<br /><b>Percentage: </b>" + 
-//             value + "%<br /><b>Explanation: </b>" + definition)
-
-//         //d3.select(this).attr("fill", "DarkOrange");
-//     })
-//     .on("mousemove", function(d, i) {
-//         var x_var = d.key;
-//         var value = d.value;
-//         var info = get_info_on_var(x_var);
-//         var label = info[0]
-//         var definition = info[1];
-
-//         displayTooltip("<b>Variable: </b>" + label + "<br /><b>Percentage: </b>" + 
-//             value + "%<br /><b>Explanation: </b>" + definition)
-
-//         //d3.select(this).attr("fill", "DarkOrange");
-//     })
-//     .on("mouseout", function(d) {
-//         hideTooltip();
-//         //d3.select(this).attr("fill", "steelblue");
-//     });
 
 

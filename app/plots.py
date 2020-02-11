@@ -31,26 +31,26 @@ y_extra_info=data.label_extra_ordered, div_name="myplot"):
         </div>
 	"""
 
-	TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
+	TOOLS = "hover,box_zoom,reset"
 	plot = figure(plot_height = 600, plot_width = 800, 
 	          x_axis_label = 'Percentage', 
 	           #y_axis_label = ,
 	           x_range=(0,100), y_range=y_variables, tools=TOOLS, tooltips=tooltips)
 
-	plot.hbar(left='values', y='variables', right=1, height=0.9, fill_color='red', line_color='black', fill_alpha = 0.75,
-	        hover_fill_alpha = 1.0, hover_fill_color = 'navy', source=all_data)
-	plot.title.text = "Relevant statistics about " + area
+	plot.square(x='values', y='variables', fill_color='blue', line_alpha = 0.75, size='values', angle='values',
+	        hover_fill_color = 'red', source=all_data)
+	plot.title.text = "Just some random sliders and their values represented in the graph"
 	
-	part_rent_slider = Slider(start=0, end=100, value=plot_data.loc[:, 'WPARTHUUR_P'].iloc[0], step=1, title="Private rental")
-	corp_rent_slider = Slider(start=0, end=100, value=plot_data.loc[:, 'WCORHUUR_P'].iloc[0], step=1, title="Housing corporation rental")
-	high_rent_slider = Slider(start=0, end=100, value=plot_data.loc[:, 'WHUURHOOG_P'].iloc[0], step=1, title="High rent (> 971 euro)")
-	middle_rent_slider = Slider(start=0, end=100, value=plot_data.loc[:, 'WHUURMIDDEN_P'].iloc[0], step=1, title="Middle high rent (711 - 971 euro)")
-	low_rent_slider = Slider(start=0, end=100, value=plot_data.loc[:, 'WHUURTSLG_P'].iloc[0], step=1, title="Low rent (< 711 euro)")
-	living_space_040 = Slider(start=0, end=100, value=plot_data.loc[:, 'WOPP0040_P'].iloc[0], step=1, title="Living space of 0-40 m2")
-	living_space_4060 = Slider(start=0, end=100, value=plot_data.loc[:, 'WOPP4060_P'].iloc[0], step=1, title="Living space of 40-60 m2")
-	living_space_6080 = Slider(start=0, end=100, value=plot_data.loc[:, 'WOPP6080_P'].iloc[0], step=1, title="Living space of 60-80 m2")
-	living_space_80100 = Slider(start=0, end=100, value=plot_data.loc[:, 'WOPP80100_P'].iloc[0], step=1, title="Living space of 80-100 m2")
-	living_space_100 = Slider(start=0, end=100, value=plot_data.loc[:, 'WOPP100PLUS_P'].iloc[0], step=1, title="Living space of > 100 m2")
+	part_rent_slider = Slider(start=0, end=100, value=10, step=1, title="Private rental")
+	corp_rent_slider = Slider(start=0, end=100, value=20, step=1, title="Housing corporation rental")
+	high_rent_slider = Slider(start=0, end=100, value=30, step=1, title="High rent (> 971 euro)")
+	middle_rent_slider = Slider(start=0, end=100, value=40, step=1, title="Middle high rent (711 - 971 euro)")
+	low_rent_slider = Slider(start=0, end=100, value=50, step=1, title="Low rent (< 711 euro)")
+	living_space_040 = Slider(start=0, end=100, value=60, step=1, title="Living space of 0-40 m2")
+	living_space_4060 = Slider(start=0, end=100, value=70, step=1, title="Living space of 40-60 m2")
+	living_space_6080 = Slider(start=0, end=100, value=80, step=1, title="Living space of 60-80 m2")
+	living_space_80100 = Slider(start=0, end=100, value=90, step=1, title="Living space of 80-100 m2")
+	living_space_100 = Slider(start=0, end=100, value=100, step=1, title="Living space of > 100 m2")
 
 	all_sliders = [part_rent_slider, corp_rent_slider, high_rent_slider,middle_rent_slider, low_rent_slider, 
 	living_space_100, living_space_80100, living_space_6080, living_space_4060, living_space_040]

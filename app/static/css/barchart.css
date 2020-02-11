@@ -1,10 +1,9 @@
 
 .bar {
-	fill: steelblue;
 	cursor: crosshair;
 }
 
 .bar:hover {
-	fill: DarkOrange;
+	opacity: 0.5;
 	cursor: crosshair;
 }
