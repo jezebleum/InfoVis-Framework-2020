@@ -163,7 +163,7 @@ chart_group.append("text")
 
 var Color = d3.scaleOrdinal().domain(Object.keys(map.entries()))
   .range(d3.schemeSet3);
-  
+
 // Code for vertical bar chart
 chart_group.selectAll(".bar")
     .data(map.entries())
@@ -173,8 +173,6 @@ chart_group.selectAll(".bar")
     .attr("x", function (d) { return x(d.key)})
     .attr("y", function (d) { return y(d.value) })
     .attr("width", x.bandwidth())
-    .attr("height", function(d) { return chart_height - y(d.value); })
-    .attr("fill", function(d) {return Color(d.key) })
     .on("mouseover", function(d, i) {
         var x_var = d.key;
         var value = d.value;
@@ -202,6 +200,54 @@ chart_group.selectAll(".bar")
     .on("mouseout", function(d) {
         hideTooltip();
         //d3.select(this).attr("fill", "steelblue");
-    });
+    })
+    .transition()
+        .duration(1200)
+        .attr("height", function(d) { return chart_height - y(d.value); })
+        .attr("fill", function(d) {return Color(d.key) });
+    
+
+// function triggerTransition(){
+//   chart_group.selectAll(".bar")
+//     .data(map.entries())
+//     .enter()
+//     .transition()
+//         .duration(1500)
+//         .append("rect")
+//         .attr("class", "bar")
+//         .attr("x", function (d) { return x(d.key)})
+//         .attr("y", function (d) { return y(d.value) })
+//         .attr("width", x.bandwidth())
+//         .attr("height", function(d) { return chart_height - y(d.value); })
+//         .attr("fill", function(d) {return Color(d.key) })
+//     .on("mouseover", function(d, i) {
+//         var x_var = d.key;
+//         var value = d.value;
+//         var info = get_info_on_var(x_var);
+//         var label = info[0]
+//         var definition = info[1];
+
+//         displayTooltip("<b>Variable: </b>" + label + "<br /><b>Percentage: </b>" + 
+//             value + "%<br /><b>Explanation: </b>" + definition)
+
+//         //d3.select(this).attr("fill", "DarkOrange");
+//     })
+//     .on("mousemove", function(d, i) {
+//         var x_var = d.key;
+//         var value = d.value;
+//         var info = get_info_on_var(x_var);
+//         var label = info[0]
+//         var definition = info[1];
+
+//         displayTooltip("<b>Variable: </b>" + label + "<br /><b>Percentage: </b>" + 
+//             value + "%<br /><b>Explanation: </b>" + definition)
+
+//         //d3.select(this).attr("fill", "DarkOrange");
+//     })
+//     .on("mouseout", function(d) {
+//         hideTooltip();
+//         //d3.select(this).attr("fill", "steelblue");
+//     });
+// }
 
 
