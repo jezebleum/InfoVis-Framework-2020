@@ -163,6 +163,7 @@ chart_group.append("text")
 
 var Color = d3.scaleOrdinal().domain(Object.keys(map.entries()))
   .range(d3.schemeSet3);
+console.log(Color)
 
 // Code for vertical bar chart
 chart_group.selectAll(".bar")
@@ -205,6 +206,7 @@ chart_group.selectAll(".bar")
         .duration(1200)
         .attr("height", function(d) { return chart_height - y(d.value); })
         .attr("fill", function(d) {return Color(d.key) });
+
     
 
 // function triggerTransition(){
